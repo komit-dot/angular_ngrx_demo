@@ -1,15 +1,23 @@
 import { Component, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { decrement, increment, reset } from './store/counter.actions';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { AppState, selectCounter } from './store/counter.selectors';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  constructor(private store: Store){}
+
+  counter$!: Observable<Number>;
+
+  constructor(private store: Store<AppState>){
+    this.counter$ = this.store.select(selectCounter)
+  }
 
   inc(){
     this.store.dispatch(increment())
