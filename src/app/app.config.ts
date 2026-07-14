@@ -4,13 +4,14 @@ import { routes } from './app.routes';
 import { provideStore, provideState } from '@ngrx/store';
 import { counterFeature } from './store/counter.feature';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { formFeature } from './form/form.feature';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideStore(),
-    provideState(counterFeature),
+    provideState(formFeature),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: false

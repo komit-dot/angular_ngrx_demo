@@ -1,9 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { decrement, increment, reset } from './store/counter.actions';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { counterFeature } from './store/counter.feature';
+import { formFeature } from './form/form.feature';
+import { updateFormField, resetFormField } from './form/form.actions';
 
 
 @Component({
@@ -14,21 +16,18 @@ import { counterFeature } from './store/counter.feature';
 })
 export class App {
 
-  counter$!: Observable<Number>;
+  // form$!: Observable<{name: string, email: string}>;
 
-  constructor(private store: Store){
-    this.counter$ = this.store.select(counterFeature.selectCounterState)
+  // constructor(private store: Store){
+  //   this.form$ = this.store.select(formFeature.selectFormState)
+  // }
+  private store = inject(Store);
+  form$ = this.store.select(formFeature.selectFormState)
+  updatedField(field: 'name' |'email', value: string){
+    this.store.dispatch(updateFormField({field, value}));
   }
 
-  inc(){
-    this.store.dispatch(increment())
-  }
-
-  dec(){
-    this.store.dispatch(decrement())
-  }
-
-  resetCount(){
-    this.store.dispatch(reset())
+  resetForm(){
+    this.store.dispatch(resetFormField());
   }
 }
