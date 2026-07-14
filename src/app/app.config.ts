@@ -3,18 +3,17 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideStore, provideState } from '@ngrx/store';
 import { counterFeature } from './store/counter.feature';
-import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { formFeature } from './form/form.feature';
+import { provideEffects } from '@ngrx/effects';
+import { userEffects } from './users/user.effects';
+import { userFeature } from './users/user.feature';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideStore(),
-    provideState(formFeature),
-    provideStoreDevtools({
-      maxAge: 25,
-      logOnly: false
-    })
-  ]
+    provideState(userFeature),
+    provideEffects([userEffects])
+]
 };
